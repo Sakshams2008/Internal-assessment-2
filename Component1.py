@@ -86,3 +86,25 @@ exit_button = tk.Button(buttons_frame, text="Exit", command=exit_app, width=10, 
 exit_button.grid(row=0, column=0, padx=10)
 
 def start_simulation():
+    t1 = team1_name.get()
+    t2 = team2_name.get()
+    overs = int(overs_var.get())
+
+    if not t1 or not t2:
+        messagebox.showerror("Input error", "Please enter both team names!")
+        return
+    
+    result = simulate_match(t1, t2, overs)
+
+    message = (
+        f"{t1}: {result['team1_score']}/{result['team1_wickets']}\n"
+        f"{t2}: {result['team2_score']}/{result['team2_wickets']}\n\n"
+        f"Winner: {result['winner']}"
+    )
+
+    messagebox.showinfo("Match Result", message)
+
+start_button = tk.Button(buttons_frame, text="Start SImulation", command=start_simulation, width=15, bg="green", fg="white")
+start_button.grid(row=0, column=1, padx=10)
+
+root.mainloop()
