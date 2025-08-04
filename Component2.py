@@ -56,5 +56,19 @@ root.title("Cricket Match Simulator")
 root.geometry("480x400")
 root.resizable(False, False)
 
-print()"for testing purposes")
+team1_name = ""
+team1_captain = ""
+team2_name = ""
+team2_captain = ""
+overs_var = tk.StringVar(value="10")
 
+tk.Label(root, text="Cricket Match Simulator", font=("Arial", 16, "bold")).pack(pady=10)
+tk.Label(root, text="Simulate a cricket match with detailed stats.\nEnter team info and start the game!", font=("Arial", 11)).pack(pady=5)
+
+tk.Label(root, text="Select Overs:", font=("Arial", 12)).pack(pady=10)
+overs_frame = tk.Frame(root)
+overs_frame.pack()
+for over in [10, 20, 50]:
+    tk.Radiobutton(overs_frame, text=f"{over} Overs", variable=overs_var, value=str(over)).pack(side=tk.LEFT, padx=10)
+
+def open_team1_window():
