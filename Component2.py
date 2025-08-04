@@ -51,3 +51,10 @@ def simulate_match(team1, team2, overs):
         "rating2": rating2
     }
 
+root = tk.Tk()
+root.title("Cricket Match Simulator")
+root.geometry("480x400")
+root.resizable(False, False)
+
+
+
