@@ -72,3 +72,45 @@ for over in [10, 20, 50]:
     tk.Radiobutton(overs_frame, text=f"{over} Overs", variable=overs_var, value=str(over)).pack(side=tk.LEFT, padx=10)
 
 def open_team1_window():
+    def save_team1():
+        nonlocal t1_name_entry, t1_captain_entry
+        global team1_name, team1_captain
+        team1_name = t1_name_entry.get()
+        team1_captain = t1_captain_entry.get()
+        if not team1_name:
+            messagebox.showerror("Error", "Please enter Team 1 Name.")
+        else:
+            messagebox.showinfo("Saved", f"Team 1 Info Saved: {team1_name}")
+            team1_win.destroy()
+    
+    team1_win = tk.Toplevel(root)
+    team1_win.title("Enter Team 1 Info")
+    tk.Label(team1_win, text="Team 1 Name:").grid(row=0, column=0, padx=10, pady=5)
+    t1_name_entry = tk.Entry(team1_win)
+    t1_name_entry.grid(row=0, column=1)
+    tk.Label(team1_win, text="Captain Name:").grid(row=1, column=0, padx=10, pady=5)
+    t1_captain_entry = tk.Entry(team1_win)
+    t1_captain_entry.grid(row=1, column=1)
+    tk.Button(team1_win, text="Save", command=save_team1, bg="green", fg="white").grid(row=2, columnspan=2, pady=10)
+
+def open_team2_window():
+    def save_team2():
+        nonlocal t2_name_entry, t2_captain_entry
+        global team2_name, team2_captain
+        team2_name = t2_name_entry.get()
+        team2_captain = t2_captain_entry.get()
+        if not team2_name:
+            messagebox.showerror("Error", "Please enter Team 2 Name.")
+        else:
+            messagebox.showinfo("Saved", f"Team 2 Info Saved: {team2_name}")
+            team2_win.destroy()
+
+    team2_win = tk.Toplevel(root)
+    team2_win.title("Enter Team 2 Info")
+    tk.Label(team2_win, text="Team 2 Name:").grid(row=0, column=0, padx=10, pady=5)
+    t2_name_entry = tk.Entry(team2_win)
+    t2_name_entry.grid(row=0, column=1)
+    tk.Label(team2_win, text="Captain Name:").grid(row=1, column=0, padx=10, pady=5)
+    t2_captain_entry = tk.Entry(team2_win)
+    t2_captain_entry.grid(row=1, column=1)
+    tk.Button(team2_win, text="Save", command=save_team2, bg="green", fg="white").grid(row=2, columnspan=2, pady=10)
