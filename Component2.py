@@ -1,16 +1,20 @@
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox, scrolledtext
 import random
+import os
+
+RESULTS_FILE = "match_results.txt"
 
 def simulate_match(team1, team2, overs):
     def play_innings(team_name, overs):
+        remaining_overs = overs
         score = 0
         wickets = 0
         players = [{"name": f"{team_name}_Player{i+1}", "runs": 0} for i in range(11)]
         current_player = 0
         runs_per_ball = [0, 1, 2, 3, 4, 5, 6]
 
-        while overs > 0 and wickets < 10:
+        while remaining_overs > 0 and wickets < 10:
             for _ in range(6):
                 if wickets == 10:
                     break
@@ -20,7 +24,8 @@ def simulate_match(team1, team2, overs):
                 else:
                     run = random.choice(runs_per_ball)
                     players[current_player]["runs"] += run
-            overs -= 1
+                    score += run
+            remaining_overs -= 1
 
         top_player = max(players, key=lambda x:x["runs"])
         return score, wickets, top_player
@@ -50,6 +55,27 @@ def simulate_match(team1, team2, overs):
         "rating1": rating1,
         "rating2": rating2
     }
+
+def save_match_result(data):
+    with open(RESULTS_FILE, "a") as file:
+        file.write(data + "\n" + ("-"*40) + "\n")
+
+def view_previous_matches():
+    if not os.path.exists(RESULTS_FILE):
+        messagebox.showinfo("No Matches", "No previous match found.")
+        return
+    
+    view_win = tk.Toplevel(root)
+    view_win.title("Previous Matches")
+    view_win.geometry("500x400")
+
+    with open(RESULTS_FILE, "r") as file:
+        content = file.read()
+    
+    text_area = scrolledtext.ScrolledText(view_win, wrap=tk.WORD, width=60, height=20)
+    text_area.pack(padx=10, pady=10)
+    text_area.insert(tk.END, content)
+    text_area.config(state=tk.DISABLED)
 
 root = tk.Tk()
 root.title("Cricket Match Simulator")
@@ -137,8 +163,10 @@ def start_simulation():
 
     messagebox.showinfo("Match Result", result_message)
 
-tk.Button(root, text="Start Simulation", command=start_simulation, width=18, bg="green", fg="white").pack(pady=10)
+    save_match_result(result_message)
 
+tk.Button(root, text="Start Simulation", command=start_simulation, width=18, bg="green", fg="white").pack(pady=10)
+tk.Button(root, text="View Previous Matches", command=view_previous_matches, width=18, bg="blue", fg="white").pack(pady=5)
 tk.Button(root, text="Exit", command=root.destroy, width=18, bg="red", fg="white").pack(pady=5)
 
 root.mainloop()
