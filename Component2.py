@@ -114,3 +114,9 @@ def open_team2_window():
     t2_captain_entry = tk.Entry(team2_win)
     t2_captain_entry.grid(row=1, column=1)
     tk.Button(team2_win, text="Save", command=save_team2, bg="green", fg="white").grid(row=2, columnspan=2, pady=10)
+
+buttons_frame = tk.Frame(root)
+buttons_frame.pack(pady=20)
+tk.Button(buttons_frame, text="Enter Team 1 Info", command=open_team1_window, width=18).grid(row=0, column=0, padx=10)
+tk.Button(buttons_frame, text="Enter Team 2 Info", command=open_team2_window, width=18).grid(row=0, column=1, padx=10)
+
