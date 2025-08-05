@@ -136,3 +136,9 @@ def start_simulation():
     )
 
     messagebox.showinfo("Match Result", result_message)
+
+tk.Button(root, text="Start Simulation", command=start_simulation, width=18, bg="green", fg="white").pack(pady=10)
+
+tk.Button(root, text="Exit", command=root.destroy, width=18, bg="red", fg="white").pack(pady=5)
+
+root.mainloop()
