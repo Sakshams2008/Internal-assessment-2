@@ -120,3 +120,19 @@ buttons_frame.pack(pady=20)
 tk.Button(buttons_frame, text="Enter Team 1 Info", command=open_team1_window, width=18).grid(row=0, column=0, padx=10)
 tk.Button(buttons_frame, text="Enter Team 2 Info", command=open_team2_window, width=18).grid(row=0, column=1, padx=10)
 
+def start_simulation():
+    if not team1_name or not team2_name:
+        messagebox.showerror("Error", "Please enter info for both teams!")
+        return
+    
+    overs = int(overs_var.get())
+    result = simulate_match(team1_name, team2_name, overs)
+
+    result_message = (
+        f"{team1_name}: {result['team1_score']}/{result['team1_wickets']} (Rating: {result['rating1']}/10)\n"
+        f"{team2_name}: {result['team2_score']}/{result['team2_wickets']} (Rating: {result['rating2']}/10)\n\n"
+        f"Winner: {result['winner']}\n"
+        f"Top Scorer: {result['top_scorer']['name']} - {result['top_scorer']['runs']} runs"
+    )
+
+    messagebox.showinfo("Match Result", result_message)
