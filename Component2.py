@@ -111,12 +111,18 @@ def open_team1_window():
     
     team1_win = tk.Toplevel(root)
     team1_win.title("Enter Team 1 Info")
+
+
     tk.Label(team1_win, text="Team 1 Name:").grid(row=0, column=0, padx=10, pady=5)
     t1_name_entry = tk.Entry(team1_win)
     t1_name_entry.grid(row=0, column=1)
+    t1_name_entry.insert(0, team1_name)
+
     tk.Label(team1_win, text="Captain Name:").grid(row=1, column=0, padx=10, pady=5)
     t1_captain_entry = tk.Entry(team1_win)
     t1_captain_entry.grid(row=1, column=1)
+    t1_captain_entry.insert(0, team1_captain)
+
     tk.Button(team1_win, text="Save", command=save_team1, bg="green", fg="white").grid(row=2, columnspan=2, pady=10)
 
 def open_team2_window():
@@ -133,12 +139,17 @@ def open_team2_window():
 
     team2_win = tk.Toplevel(root)
     team2_win.title("Enter Team 2 Info")
+
     tk.Label(team2_win, text="Team 2 Name:").grid(row=0, column=0, padx=10, pady=5)
     t2_name_entry = tk.Entry(team2_win)
     t2_name_entry.grid(row=0, column=1)
+    t2_name_entry.insert(0, team2_name)
+
     tk.Label(team2_win, text="Captain Name:").grid(row=1, column=0, padx=10, pady=5)
     t2_captain_entry = tk.Entry(team2_win)
     t2_captain_entry.grid(row=1, column=1)
+    t2_captain_entry.insert(0, team2_captain)
+
     tk.Button(team2_win, text="Save", command=save_team2, bg="green", fg="white").grid(row=2, columnspan=2, pady=10)
 
 buttons_frame = tk.Frame(root)
