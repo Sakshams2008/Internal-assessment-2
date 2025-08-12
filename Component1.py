@@ -88,17 +88,27 @@ exit_button.grid(row=0, column=0, padx=10)
 def start_simulation():
     t1 = team1_name.get()
     t2 = team2_name.get()
+    c1 = team1_captain.get()
+    c2 = team2_captain.get()
     overs = int(overs_var.get())
 
-    if not t1 or not t2:
-        messagebox.showerror("Input error", "Please enter both team names!")
+    if not t1.isalpha() or not t2.isalpha() or not c1.isalpha() or not c2.isalpha():
+        messagebox.showerror("Input error", "The dteails for teams must only be letters!")
+        return
+
+    if t1.lower() == t2.lower():
+        messagebox.showerror("Input error", "Team names must be different!")
+        return
+
+    if not t1 or not t2 or not c1 or not c2:
+        messagebox.showerror("Input error", "Please fill in all the informations!")
         return
     
     result = simulate_match(t1, t2, overs)
 
     message = (
-        f"{t1}: {result['team1_score']}/{result['team1_wickets']}\n"
-        f"{t2}: {result['team2_score']}/{result['team2_wickets']}\n\n"
+        f"{t1} (Captain: {c1}): {result['team1_score']}/{result['team1_wickets']}\n"
+        f"{t2} (Captain: {c2}): {result['team2_score']}/{result['team2_wickets']}\n\n"
         f"Winner: {result['winner']}"
     )
 
