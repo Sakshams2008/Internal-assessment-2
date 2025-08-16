@@ -103,11 +103,25 @@ def open_team1_window():
         global team1_name, team1_captain
         team1_name = t1_name_entry.get()
         team1_captain = t1_captain_entry.get()
+
         if not team1_name:
             messagebox.showerror("Error", "Please enter Team 1 Name.")
-        else:
-            messagebox.showinfo("Saved", f"Team 1 Info Saved: {team1_name}")
-            team1_win.destroy()
+            return
+        
+        if not team1_captain:
+            messagebox.showerror("Error", "Please enter Team 1 Captain Name.")
+            return
+
+        if not team1_name.isalpha():
+            messagebox.showerror("Error", "The team name must only contain letters.")
+            return
+        
+        if not team1_captain.isalpha():
+            messagebox.showerror("Error", "The team captain name must only contain letters.")
+            return
+        
+        messagebox.showinfo("Saved", f"Team 1 Info Saved: {team1_name}")
+        team1_win.destroy()
     
     team1_win = tk.Toplevel(root)
     team1_win.title("Enter Team 1 Info")
@@ -131,12 +145,25 @@ def open_team2_window():
         global team2_name, team2_captain
         team2_name = t2_name_entry.get()
         team2_captain = t2_captain_entry.get()
+
         if not team2_name:
             messagebox.showerror("Error", "Please enter Team 2 Name.")
-        else:
-            messagebox.showinfo("Saved", f"Team 2 Info Saved: {team2_name}")
-            team2_win.destroy()
+            return
 
+        if not team2_captain:
+            messagebox.showerror("Error", "Please enter Team 2 captain name.")
+            return
+
+        if not team2_name.isalpha():
+            messagebox.showerror("Error", "The team name must only contain letters.")
+            return
+        if not team2_captain.isalpha():
+            messagebox.showerror("Error", "The team captain name must only contain letters.")
+            return
+
+        messagebox.showinfo("Saved", f"Team 2 Info Saved: {team2_name}")
+        team2_win.destroy()
+    
     team2_win = tk.Toplevel(root)
     team2_win.title("Enter Team 2 Info")
 
@@ -160,6 +187,10 @@ tk.Button(buttons_frame, text="Enter Team 2 Info", command=open_team2_window, wi
 def start_simulation():
     if not team1_name or not team2_name:
         messagebox.showerror("Error", "Please enter info for both teams!")
+        return
+    
+    if team1_name.lower() == team2_name.lower():
+        messagebox.showerror("Error", "Team names must be different!")
         return
     
     overs = int(overs_var.get())

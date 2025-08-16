@@ -34,3 +34,15 @@ dfh: 172/3 (Rating: 5/10)
 Winner: dfh
 Top Scorer: dfh_Player2 - 67 runs
 ----------------------------------------
+Hi: 180/3 (Rating: 6/10)
+Hello: 172/3 (Rating: 5/10)
+
+Winner: Hi
+Top Scorer: Hi_Player4 - 88 runs
+----------------------------------------
+Hi: 351/10 (Rating: 10/10)
+Hello: 217/10 (Rating: 7/10)
+
+Winner: Hi
+Top Scorer: Hello_Player9 - 125 runs
+----------------------------------------
