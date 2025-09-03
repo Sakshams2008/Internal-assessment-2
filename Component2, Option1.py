@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox, scrolledtext
 import random
 import os
+from collections import Counter
 
 RESULTS_FILE = "match_results.txt"
 
@@ -76,6 +77,53 @@ def view_previous_matches():
     text_area.pack(padx=10, pady=10)
     text_area.insert(tk.END, content)
     text_area.config(state=tk.DISABLED)
+
+def view_statistics_simple():
+    if not os.path.exists(RESULTS_FILE):
+        messagebox.showinfo("No Matches", "No match data available for statistics.")
+        return
+    
+    with open(RESULTS_FILE, "r") as file:
+        content = file.read().strip()
+
+    if not content:
+        messagebox.showinfo("No Matches", "No match data available for statistics.")
+        return
+
+    matches = content.split("-" * 40 + "\n")
+    matches = [m.strip() for m in matches if m.strip()]
+
+    total_matches = len(matches)
+    wins = Counter()
+    top_scorers = Counter()
+    ties = 0
+
+    for match in matches:
+        lines = match.splitlines()
+        for line in lines:
+            if line.startswith("Winner"):
+                winner = line.split("Winner:")[1].strip()
+                if winner == "Tie":
+                    ties += 1
+                else:
+                    wins[winner] += 1
+            if line.startswith("Top Scorer:"):
+                scorer = line.split("Top Scorer:")[1].strip().split("-")[0].strip()
+                top_scorers[scorer] += 1
+    
+    top_scorer_name, top_scorer_count = ("None", 0)
+    if top_scorers:
+        top_scorer_name, top_scorer_count = top_scorers.most_common(1)[0]
+    
+    stats_message = (
+        f"Match Statistics\n\n"
+        f"Total Matches: {total_matches}\n"
+        f"Ties: {ties}\n\n"
+        + "\n".join([f"{team} Wins: {count}" for team, count in wins.items()])
+        + f"\n\nMost Frequent Top Scorer: {top_scorer_name} ({top_scorer_count} times)"
+    )
+
+    messagebox.showinfo("Match Statistics", stats_message)
 
 root = tk.Tk()
 root.title("Cricket Match Simulator")
@@ -209,6 +257,7 @@ def start_simulation():
 
 tk.Button(root, text="Start Simulation", command=start_simulation, width=18, bg="green", fg="white").pack(pady=10)
 tk.Button(root, text="View Previous Matches", command=view_previous_matches, width=18, bg="blue", fg="white").pack(pady=5)
+tk.Button(root, text="View Statistics", command=view_statistics_simple, width=18, bg="purple", fg="white").pack(pady=5)
 tk.Button(root, text="Exit", command=root.destroy, width=18, bg="red", fg="white").pack(pady=5)
 
 root.mainloop()

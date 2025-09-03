@@ -1,48 +1,12 @@
-1: 315/9 (Rating: 10/10)
-2: 316/4 (Rating: 10/10)
+Australia: 152/4 (Rating: 5/10)
+England: 153/7 (Rating: 5/10)
 
-Winner: 2
-Top Scorer: 2_Player5 - 164 runs
+Winner: England
+Top Scorer: Australia_Player1 - 89 runs
 ----------------------------------------
-qwerty: 325/8 (Rating: 10/10)
-adkjfbafd: 337/6 (Rating: 10/10)
+Nz: 289/10 (Rating: 9/10)
+Aus: 256/10 (Rating: 8/10)
 
-Winner: adkjfbafd
-Top Scorer: qwerty_Player5 - 167 runs
-----------------------------------------
-Bye : 148/8 (Rating: 4/10)
-Hi: 154/7 (Rating: 5/10)
-
-Winner: Hi
-Top Scorer: Bye _Player8 - 60 runs
-----------------------------------------
-Hello: 159/5 (Rating: 5/10)
-Bye: 127/7 (Rating: 4/10)
-
-Winner: Hello
-Top Scorer: Hello_Player2 - 86 runs
-----------------------------------------
-Hi: 147/9 (Rating: 4/10)
-Bye : 161/4 (Rating: 5/10)
-
-Winner: Bye 
-Top Scorer: Bye _Player4 - 56 runs
-----------------------------------------
-adsd1: 153/4 (Rating: 5/10)
-dfh: 172/3 (Rating: 5/10)
-
-Winner: dfh
-Top Scorer: dfh_Player2 - 67 runs
-----------------------------------------
-Hi: 180/3 (Rating: 6/10)
-Hello: 172/3 (Rating: 5/10)
-
-Winner: Hi
-Top Scorer: Hi_Player4 - 88 runs
-----------------------------------------
-Hi: 351/10 (Rating: 10/10)
-Hello: 217/10 (Rating: 7/10)
-
-Winner: Hi
-Top Scorer: Hello_Player9 - 125 runs
+Winner: Nz
+Top Scorer: Nz_Player4 - 121 runs
 ----------------------------------------
