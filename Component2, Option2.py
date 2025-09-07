@@ -3,7 +3,7 @@ from tkinter import messagebox, scrolledtext
 import random
 import os
 from collections import Counter
-import matplotlib.pylot as plt
+import matplotlib.pyplot as plt
 
 RESULTS_FILE = "match_results.txt"
 
@@ -120,6 +120,20 @@ def view_statistics_graph():
     plt.xlabel("Teams")
     plt.ylabel("Wins/Ties")
     plt.show()
+
+    if top_scorers:
+        plt.figure(figsize=(10, 5))
+        players = [p for p, _ in top_scorers.most_common(10)]
+        scores = [c for _, c in top_scorers.most_common(10)]
+        plt.bar(players, scores, color="orange")
+        plt.title("Most Frequent Top Scorers")
+        plt.xlabel("Players")
+        plt.ylabel("Times Top Scorer")
+        plt.xticks(rotation=45, ha="right")
+        plt.tight_layout()
+        plt.show()
+    else:
+        messagebox.showinfo("No Top Scorers", "No top scorer data available for graphs.")
 root = tk.Tk()
 root.title("Cricket Match Simulator")
 root.geometry("480x400")
@@ -252,6 +266,7 @@ def start_simulation():
 
 tk.Button(root, text="Start Simulation", command=start_simulation, width=18, bg="green", fg="white").pack(pady=10)
 tk.Button(root, text="View Previous Matches", command=view_previous_matches, width=18, bg="blue", fg="white").pack(pady=5)
+tk.Button(root, text="View Statistics (Graphs)", command=view_statistics_graph, width=18, bg="darkorange", fg="white").pack(pady=5)
 tk.Button(root, text="Exit", command=root.destroy, width=18, bg="red", fg="white").pack(pady=5)
 
 root.mainloop()
