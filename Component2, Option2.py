@@ -110,6 +110,16 @@ def view_statistics_graph():
             if line.startswith("Top Scorer:"):
                 scorer = line.split("Top Scorer:")[1].strip().split("-")[0].strip()
                 top_scorers[scorer] += 1
+
+    
+    plt.figure(figsize=(10, 5))
+    teams = list(wins.keys()) + (["Ties"] if ties > 0 else [])
+    counts = list(wins.values()) + ([ties] if ties > 0 else [])
+    plt.bar(teams, counts, color="skyblue")
+    plt.title("Number of Wins per Team")
+    plt.xlabel("Teams")
+    plt.ylabel("Wins/Ties")
+    plt.show()
 root = tk.Tk()
 root.title("Cricket Match Simulator")
 root.geometry("480x400")
