@@ -111,16 +111,18 @@ def view_statistics_simple():
                 scorer = line.split("Top Scorer:")[1].strip().split("-")[0].strip()
                 top_scorers[scorer] += 1
     
-    top_scorer_name, top_scorer_count = ("None", 0)
+    # Show ALL top scorers instead of just one
     if top_scorers:
-        top_scorer_name, top_scorer_count = top_scorers.most_common(1)[0]
-    
+        all_top_scorers = "\n".join([f"{player}: {count} times" for player, count in top_scorers.items()])
+    else:
+        all_top_scorers = "None"
+
     stats_message = (
         f"Match Statistics\n\n"
         f"Total Matches: {total_matches}\n"
         f"Ties: {ties}\n\n"
         + "\n".join([f"{team} Wins: {count}" for team, count in wins.items()])
-        + f"\n\nMost Frequent Top Scorer: {top_scorer_name} ({top_scorer_count} times)"
+        + f"\n\nTop Scorers Across All Matches:\n{all_top_scorers}"
     )
 
     messagebox.showinfo("Match Statistics", stats_message)
