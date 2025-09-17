@@ -32,7 +32,16 @@ def simulate_match(team1, team2, overs):
                 else:
                     run = random.choice(runs_per_ball)
                     players[current_player]["runs"] += run
+                    players[current_player]["balls_faced"] += 1
                     score += run
+
+                    bowler = random.choice([p for p in players if p != players[current_player]])
+                    bowler["balls_bowled"] += 1
+                    bowler["runs_conceded"] += run
+                    if run == 0 and random.randint(1, 100) <= 10:
+                        wickets += 1
+                        bowler["wickets"] += 1
+                        current_player += 1
             remaining_overs -= 1
 
         top_player = max(players, key=lambda x:x["runs"])
