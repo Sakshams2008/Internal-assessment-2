@@ -23,3 +23,17 @@ Winner: Ind
 Top Scorer: Pak_Player5 - 119 runs
 Player of the Match: Ind_Player4 - 100 runs, 0 wickets
 ----------------------------------------
+Ind: 181/2 (Rating: 6/10)
+Nz: 156/4 (Rating: 5/10)
+
+Winner: Ind
+Top Scorer: Ind_Player1 - 102 runs
+Player of the Match: Ind_Player1 - 102 runs, 0 wickets
+----------------------------------------
+Pak: 196/4 (Rating: 6/10)
+Bang: 165/4 (Rating: 5/10)
+
+Winner: Pak
+Top Scorer: Pak_Player5 - 89 runs
+Player of the Match: Pak_Player5 - 89 runs, 0 wickets
+----------------------------------------

@@ -57,14 +57,10 @@ def simulate_match(team1, team2, overs):
     
     player_of_match = None
     if winning_players:
-        max_runs = max(p["runs"] for p in winning_players)
-        candidates = [p for p in winning_players if p["runs"] == max_runs]
-
-        if len(candidates) > 1:
-            max_wickets = max(p["wickets"] for p in candidates)
-            candidates = [p for p in candidates if p["wickets"] == max_wickets]
-
-        player_of_match = candidates[0]
+        player_of_match = max(
+            winning_players,
+            key=lambda p: p["runs"] + (p["wickets"] * 25)
+        )
 
     return {
         "team1_score": team1_score,
