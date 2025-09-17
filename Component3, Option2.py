@@ -11,7 +11,14 @@ def simulate_match(team1, team2, overs):
         remaining_overs = overs
         score = 0
         wickets = 0
-        players = [{"name": f"{team_name}_Player{i+1}", "runs": 0} for i in range(11)]
+        players = [{
+            "name": f"{team_name}_Player{i+1}",
+            "runs": 0,
+            "balls_faced": 0,
+            "wickets": 0,
+            "balls_bowled": 0,
+            "runs_conceded": 0
+        } for i in range(11)]
         current_player = 0
         runs_per_ball = [0, 1, 2, 3, 4, 5, 6]
 
