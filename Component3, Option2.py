@@ -26,29 +26,35 @@ def simulate_match(team1, team2, overs):
             for _ in range(6):
                 if wickets == 10:
                     break
+
+                bowler = random.choice([p for p in players if p != players[current_player]])
+                bowler["balls_bowled"] += 1
+
                 if random.randint(1, 100) <= 8:
                     wickets += 1
+                    bowler["wickets"] += 1
                     current_player += 1
+                    bowler["runs_conceded"] += 0  
                 else:
                     run = random.choice(runs_per_ball)
                     players[current_player]["runs"] += run
                     players[current_player]["balls_faced"] += 1
                     score += run
-
-                    bowler = random.choice([p for p in players if p != players[current_player]])
-                    bowler["balls_bowled"] += 1
                     bowler["runs_conceded"] += run
+
                     if run == 0 and random.randint(1, 100) <= 10:
                         wickets += 1
                         bowler["wickets"] += 1
                         current_player += 1
+                        if current_player >= len(players):
+                            break
             remaining_overs -= 1
 
         top_player = max(players, key=lambda x:x["runs"])
-        return score, wickets, top_player
+        return score, wickets, top_player, players
     
-    team1_score, team1_wkts, top1 = play_innings(team1, overs)
-    team2_score, team2_wkts, top2 = play_innings(team2, overs)
+    team1_score, team1_wkts, top1, players1 = play_innings(team1, overs)
+    team2_score, team2_wkts, top2, players2 = play_innings(team2, overs)
 
     if team1_score > team2_score:
         winner = team1
@@ -58,6 +64,24 @@ def simulate_match(team1, team2, overs):
         winner = "Tie"
 
     overall_top = top1 if top1["runs"] >= top2["runs"] else top2
+
+    def compute_score(p):
+        strike_rate = (p["runs"] / p["balls_faced"] * 100) if p ["balls_faced"] else 0
+        economy = (p["runs_conceded"] / (p["balls_bowled"]/6)) if p["balls_bowled"] else float("inf")
+        return (
+            p["runs"] +
+            p["wickets"] * 35 +
+            strike_rate * 0.2 -
+            (economy if economy != float("inf") else 0)
+        )
+    
+    winning_team = team1 if team1_score > team2_score else (team2 if team2_score > team1_score else None)
+
+    if winning_team:
+        winning_players = players1 if winning_team == team1 else players2
+        player_of_match = max(winning_players, key=compute_score)
+    else:
+        player_of_match = None
 
     rating1 = min(10, team1_score // 30)
     rating2 = min(10, team2_score // 30)
@@ -69,6 +93,7 @@ def simulate_match(team1, team2, overs):
         "team2_wickets": team2_wkts,
         "winner": winner,
         "top_scorer": overall_top,
+        "player_of_match": player_of_match,
         "rating1": rating1,
         "rating2": rating2
     }
@@ -262,11 +287,28 @@ def start_simulation():
     overs = int(overs_var.get())
     result = simulate_match(team1_name, team2_name, overs)
 
+    pom = result['player_of_match']
+    if pom:
+        strike_rate = (pom['runs'] / pom['balls_faced'] * 100) if pom['balls_faced'] else 0
+        if pom['balls_bowled']:
+            economy = pom['runs_conceded'] / (pom['balls_bowled']/6)
+            economy_str = f"{economy:.2f}"
+        else:
+            economy_str = "N/A"
+
+        pom_text = (
+            f"{pom['name']} - {pom['runs']} runs, {pom['wickets']} wickets, "
+            f"SR: {strike_rate:.2f}, Econ: {economy_str}"
+        )
+    else:
+        pom_text = "None"
+
     result_message = (
         f"{team1_name}: {result['team1_score']}/{result['team1_wickets']} (Rating: {result['rating1']}/10)\n"
         f"{team2_name}: {result['team2_score']}/{result['team2_wickets']} (Rating: {result['rating2']}/10)\n\n"
         f"Winner: {result['winner']}\n"
-        f"Top Scorer: {result['top_scorer']['name']} - {result['top_scorer']['runs']} runs"
+        f"Top Scorer: {result['top_scorer']['name']} - {result['top_scorer']['runs']} runs\n"
+        f"Player of the Match: {pom_text}"
     )
 
     messagebox.showinfo("Match Result", result_message)

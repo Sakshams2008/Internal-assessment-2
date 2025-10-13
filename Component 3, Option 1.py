@@ -264,16 +264,21 @@ def start_simulation():
     result = simulate_match(team1_name, team2_name, overs)
 
     result_message = (
-        f"{team1_name}: {result['team1_score']}/{result['team1_wickets']} (Rating: {result['rating1']}/10)\n"
-        f"{team2_name}: {result['team2_score']}/{result['team2_wickets']} (Rating: {result['rating2']}/10)\n\n"
-        f"Winner: {result['winner']}\n"
-        f"Top Scorer: {result['top_scorer']['name']} - {result['top_scorer']['runs']} runs"
+        f"{team1_name}: {result['team1_score']}/{result['team1_wickets']}  "
+        f"(Rating: {result['rating1']}/10)\n"
+        f"{team2_name}: {result['team2_score']}/{result['team2_wickets']}  "
+        f"(Rating: {result['rating2']}/10)\n\n"
+        f"Winner: {result['winner']}\n\n"
+        f"Top Scorer: {result['top_scorer']['name']}  "
+        f"- {result['top_scorer']['runs']} runs"
     )
 
     pom = result["player_of_match"]
     if pom:
-        result_message += f"\nPlayer of the Match: {pom['name']} - {pom['runs']} runs, {pom['wickets']} wickets"
-
+        result_message += (
+            f"\n\nPlayer of the Match: {pom['name']}\n"
+            f"Performance: {pom['runs']} runs | {pom['wickets']} wickets"
+        )
     messagebox.showinfo("Match Result", result_message)
     save_match_result(result_message)
 
