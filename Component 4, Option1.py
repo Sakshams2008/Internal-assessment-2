@@ -155,13 +155,40 @@ def start_tournament_simple():
     
     choice_win = tk.Toplevel(root)
     choice_win.title("Choose Tournament Format")
-    tk.Label(choice_win, text="Select Tournament Type:", font=("Arial", "12", "bold")).pack(pady=10)
+    tk.Label(choice_win, text="Select Tournament Type:", font=("Arial", 12, "bold")).pack(pady=10)
 
+    def run_series(best_of):
+        choice_win.destroy()
+        overs = int(overs_var.get())
+        required_wins = best_of // 2 + 1
+        wins = {team1_name: 0, team2_name: 0}
+        results = []
+
+        match_no = 1
+        while wins[team1_name] < required_wins and wins[team2_name] < required_wins:
+            result = simulate_match(team1_name, team2_name, overs)
+            results.append(f"Match {match_no}: {result['winner']} won")
+            if result['winner'] in wins:
+                wins[result['winner']] += 1
+            match_no += 1
+
+        if wins[team1_name] > wins[team2_name]:
+            series_winner = team1_name
+        elif wins[team2_name] > wins[team1_name]:
+            series_winner = team2_name
+        else:
+            series_winner = "Tie"
+        
+        summary = "\n".join(results) + f"\n\n Series Winner: {series_winner}"
+        messagebox.showinfo("Tournament Result", summary)
+        save_match_result(summary)
     
+    tk.Button(choice_win, text="Best of 3", width=15, command=lambda: run_series(3)).pack(pady=5)
+    tk.Button(choice_win, text="Best of 5", width=15, command=lambda: run_series(5)).pack(pady=5)
 
 root = tk.Tk()
 root.title("Cricket Match Simulator")
-root.geometry("480x400")
+root.geometry("480x460")
 root.resizable(False, False)
 
 team1_name = ""
@@ -298,6 +325,7 @@ def start_simulation():
     save_match_result(result_message)
 
 tk.Button(root, text="Start Simulation", command=start_simulation, width=18, bg="green", fg="white").pack(pady=10)
+tk.Button(root, text="Tournament Mode", command=start_tournament_simple, width=20, bg="orange", fg="white").pack(pady=5)
 tk.Button(root, text="View Previous Matches", command=view_previous_matches, width=18, bg="blue", fg="white").pack(pady=5)
 tk.Button(root, text="View Statistics", command=view_statistics_simple, width=18, bg="purple", fg="white").pack(pady=5)
 tk.Button(root, text="Exit", command=root.destroy, width=18, bg="red", fg="white").pack(pady=5)
