@@ -146,7 +146,7 @@ def view_statistics_simple():
 
 root = tk.Tk()
 root.title("Cricket Match Simulator")
-root.geometry("480x400")
+root.geometry("480x460")
 root.resizable(False, False)
 
 team1_name = ""
@@ -282,7 +282,103 @@ def start_simulation():
     messagebox.showinfo("Match Result", result_message)
     save_match_result(result_message)
 
+def tournament_mode():
+    if not team1_name or not team2_name:
+        messagebox.showerror("Error", "Please enter info for both teams before starting a tournament!")
+        return
+
+    if team1_name.lower() == team2_name.lower():
+        messagebox.showerror("Error", "Team names must be different!")
+        return
+
+    # Ask user for series length (3 or 5 matches)
+    series_length = messagebox.askquestion(
+        "Tournament Type",
+        "Do you want to play Best of 5?\n(Click 'Yes' for Best of 5, 'No' for Best of 3)"
+    )
+    total_matches = 5 if series_length == "yes" else 3
+    required_wins = (total_matches // 2) + 1
+
+    overs = int(overs_var.get())
+    match_results = []
+    wins = {team1_name: 0, team2_name: 0}
+    player_stats = {}
+
+    for match_no in range(1, total_matches + 1):
+        result = simulate_match(team1_name, team2_name, overs)
+
+        winner = result["winner"]
+        if winner != "Tie":
+            wins[winner] += 1
+
+        # track player stats for man of the series
+        for p in [result["player_of_match"], result["top_scorer"]]:
+            if p:
+                if p["name"] not in player_stats:
+                    player_stats[p["name"]] = {"runs": 0, "wickets": 0}
+                player_stats[p["name"]]["runs"] += p["runs"]
+                player_stats[p["name"]]["wickets"] += p["wickets"]
+
+        # build match summary
+        pom = result["player_of_match"]
+        pom_text = f"(POTM: {pom['name']} - {pom['runs']} runs, {pom['wickets']} wickets)" if pom else ""
+        summary = (
+            f"Match {match_no}: "
+            f"{team1_name} {result['team1_score']}/{result['team1_wickets']} "
+            f"vs {team2_name} {result['team2_score']}/{result['team2_wickets']} "
+            f"→ Winner: {winner} {pom_text}"
+        )
+
+        match_results.append(summary)
+
+        # save each match as usual
+        result_message = (
+            f"{team1_name}: {result['team1_score']}/{result['team1_wickets']}  (Rating: {result['rating1']}/10)\n"
+            f"{team2_name}: {result['team2_score']}/{result['team2_wickets']}  (Rating: {result['rating2']}/10)\n\n"
+            f"Winner: {winner}\n\n"
+            f"Top Scorer: {result['top_scorer']['name']}  - {result['top_scorer']['runs']} runs"
+        )
+        if pom:
+            result_message += (
+                f"\n\nPlayer of the Match: {pom['name']}\n"
+                f"Performance: {pom['runs']} runs | {pom['wickets']} wickets"
+            )
+        save_match_result(result_message)
+
+        # stop if one team already secured enough wins
+        if wins[team1_name] == required_wins or wins[team2_name] == required_wins:
+            break
+
+    # Decide series winner
+    if wins[team1_name] > wins[team2_name]:
+        series_winner = f"{team1_name} ({wins[team1_name]}–{wins[team2_name]})"
+    elif wins[team2_name] > wins[team1_name]:
+        series_winner = f"{team2_name} ({wins[team2_name]}–{wins[team1_name]})"
+    else:
+        series_winner = "Series tied"
+
+    # Decide man of the series
+    man_of_series = None
+    if player_stats:
+        man_of_series = max(
+            player_stats.items(),
+            key=lambda kv: kv[1]["runs"] + kv[1]["wickets"] * 25
+        )
+
+    # Final tournament message
+    final_message = "\n".join(match_results)
+    final_message += f"\n\n🏆 Series Winner: {series_winner}"
+    if man_of_series:
+        stats = player_stats[man_of_series[0]]
+        final_message += (
+            f"\nMan of the Series: {man_of_series[0]} "
+            f"({stats['runs']} runs, {stats['wickets']} wickets)"
+        )
+
+    messagebox.showinfo("Tournament Results", final_message)
+
 tk.Button(root, text="Start Simulation", command=start_simulation, width=18, bg="green", fg="white").pack(pady=10)
+tk.Button(root, text="Tournament Mode", command=tournament_mode, width=18, bg="orange", fg="black").pack(pady=5)
 tk.Button(root, text="View Previous Matches", command=view_previous_matches, width=18, bg="blue", fg="white").pack(pady=5)
 tk.Button(root, text="View Statistics", command=view_statistics_simple, width=18, bg="purple", fg="white").pack(pady=5)
 tk.Button(root, text="Exit", command=root.destroy, width=18, bg="red", fg="white").pack(pady=5)
