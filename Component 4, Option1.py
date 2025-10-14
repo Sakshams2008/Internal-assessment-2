@@ -152,6 +152,12 @@ def start_tournament_simple():
     if team1_name.lower() == team2_name.lower():
         messagebox.showerror("Error", "Team names must be different!")
         return
+    
+    choice_win = tk.Toplevel(root)
+    choice_win.title("Choose Tournament Format")
+    tk.Label(choice_win, text="Select Tournament Type:", font=("Arial", "12", "bold")).pack(pady=10)
+
+    
 
 root = tk.Tk()
 root.title("Cricket Match Simulator")
