@@ -375,7 +375,21 @@ def tournament_mode():
             f"({stats['runs']} runs, {stats['wickets']} wickets)"
         )
 
-    messagebox.showinfo("Tournament Results", final_message)
+    results_win = tk.Toplevel(root)
+    results_win.title("Tournament Results")
+    results_win.geometry("600x400")  # you can adjust size
+
+    text_area = scrolledtext.ScrolledText(
+        results_win, wrap=tk.WORD, width=70, height=20, font=("Consolas", 11)
+    )
+    text_area.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
+
+    # Insert formatted results
+    text_area.insert(tk.END, "=== Tournament Results ===\n\n")
+    text_area.insert(tk.END, final_message)
+
+    # Make text read-only
+    text_area.config(state=tk.DISABLED)
 
 tk.Button(root, text="Start Simulation", command=start_simulation, width=18, bg="green", fg="white").pack(pady=10)
 tk.Button(root, text="Tournament Mode", command=tournament_mode, width=18, bg="orange", fg="black").pack(pady=5)
