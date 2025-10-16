@@ -3,6 +3,7 @@ from tkinter import messagebox, scrolledtext
 import random
 import os
 from collections import Counter
+import webbrowser
 
 RESULTS_FILE = "match_results.txt"
 
@@ -155,20 +156,30 @@ def show_help():
         "- For viewing the past matches, click View Previous Matches button\n"
         "- To see the statistics, click View Statistics button\n\n"
         "Enjoy the app!"
+        "Watch the demo video below to learn how to use the app."
     )
     help_info = tk.Toplevel(root)
     help_info.title("Help")
-    help_info.geometry("600x400")
+    help_info.geometry("600x450")
+
+    frame = tk.Frame(help_info)
+    frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
     
     area = scrolledtext.ScrolledText(
-        help_info, wrap=tk.WORD, width=70, height=20, font=("Consolas", 11)
+        help_info, wrap=tk.WORD, width=70, height=15, font=("Consolas", 11)
     )
-    area.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
+    area.pack(fill=tk.BOTH, expand=True)
 
     area.insert(tk.END, "=== Help info ===\n\n")
     area.insert(tk.END, help_message)
 
     area.config(state=tk.DISABLED)
+
+    def open_demo():
+        webbrowser.open("https://youtu.be/sQ-zwMQfIsI")
+    
+    demo_button = tk.Button(help_info, text="Watch Demo Video", command=open_demo, bg="blue", fg="white")
+    demo_button.pack(pady=10)
 
 root = tk.Tk()
 root.title("Cricket Match Simulator")
